@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图片上传与检测</title>
+    <style>
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .upload-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .upload-form input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .upload-form input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .upload-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="left" id="left-side" style="background-image: url('{{ url_for('uploaded_file', filename=image_url) if image_url else '' }}');">
+        <form class="upload-form" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" onchange="this.form.submit()">
+            <input type="submit" value="上传图片">
+        </form>
+    </div>
+    <div class="right">
+        <h1>检测结果</h1>
+        {% if prediction is not none %}
+            <p>预测结果: {{ prediction }}</p>
+        {% else %}
+            <p>尚未上传图片。</p>
+        {% endif %}
+    </div>
+</body>
+</html>
